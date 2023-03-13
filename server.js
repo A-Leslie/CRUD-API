@@ -145,27 +145,21 @@ transporter.sendMail(mailOptions, (error, info) => {
 
 app.post('/resetpass',async(req,res)=>{
   let email=req.body.email
-  if(email===Usermodel.email){
-    let password=req.body.newpassword
-    let newpassword=req.body.newpassword
-    let confirmpassword=req.body.confirmpassword
-    if(newpassword!==confirmpassword){
-       return res.send('passwords do not match please rewrite them correctly ')
-    }
-    else{
-      let updatedpass=await Usermodel.findOneAndUpdate({password})
-if(updatedpass){
-  return res.redirect('/homepage')
-}
-else{
- return  res.send('Failed to update')
-}
-
+  let newpassword=req.body.newpassword
+  let confirmpassword=req.body.confirmpassword
+  if(newpassword===confirmpassword){
+  let Updateduser=await Usermodel.findOneAndUpdate({email},({password:newpassword}))
+  if(Updateduser){
+      return res.redirect('/login')
   }
-    }
- {
-   return  res.send('User not known')
+  else{
+      res.json('No such User Found')
   }
+  }
+  else{
+    res.send('Password does not match')
+  }
+  
 })
 
 
