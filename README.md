@@ -1,2 +1,2 @@
 # CRUD-API
-First API
+Node js and ejs frontend
